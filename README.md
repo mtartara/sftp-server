@@ -1,23 +1,23 @@
 # sftp-server
 
-New Build
+### New Build
 ```
 oc new-build --strategy docker --binary --docker-image alpine:latest --name sftp-server
 oc start-build sftp-server --from-dir . --follow --no-cache=true
 oc new-app sftp-server
 ```
 
-Create service account
+### Create service account
 ```
 oc create serviceaccount sftp-sa -n test-project
 ```
 
-Root Permission
+### Anyuid Permission
 ```
 oc adm policy add-scc-to-user anyuid -z sftp-sa
 ```
 
-Edit dc sftp-server
+### Edit dc sftp-server
 ```
 oc edit dc sftp-server
 
@@ -25,46 +25,41 @@ oc edit dc sftp-server
 template:
 ******
 spec:
-        serviceAccountName: sftp-sa
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 100
-        containers:
+  serviceAccountName: sftp-sa
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 100
+    containers:
 ----
 ```
 
-InitContainer
+### InitContainer
 ```
 initContainers:
-        - command:
-            - chown
-            - '100'
-            - /tmp/authorized_keys
-          image: 'alpine:latest'
-          imagePullPolicy: Always
-          name: install
-          resources: {}
-          securityContext:
-            runAsUser: 0
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-            - mountPath: /tmp/authorized_keys
-              name: volume-r5cjm
-              subPath: authorized_keys
+  - command:
+  - chown
+  - '100'
+  - /tmp/authorized_keys
+  image: 'alpine:latest
+  securityContext:
+    runAsUser: 0
+  volumeMounts:
+  - mountPath: /tmp/authorized_keys
+    name: volume-r5cjm
+    subPath: authorized_keys
 ```
 
-Create ConfigMaps
+### Create ConfigMaps
 ```
 oc create configmap pub-key --from-file=authorized_keys
 ```
 
-Add volume
+### Add volume
 ```
 oc set volume dc/sftp-server --add --mount-path=/home/timbube/.ssh/authorized_keys --configmap-name=pub-key --default-mode=0600
 ```
 
-Change Mount
+### Change Mount
 ```
 volumeMounts:
   - mountPath: /home/timbube/.ssh/authorized_keys
