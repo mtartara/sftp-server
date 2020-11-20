@@ -11,7 +11,7 @@ RUN ssh-keygen -A
 
 RUN mkdir -p ${HOME} &&\
     addgroup -S sftp &&\
-    adduser -S -D -h ${HOME} ${USERNAME} sftp &&\
+    adduser -u 1001 -S -D -h ${HOME} ${USERNAME} sftp &&\
     chgrp -R 0 ${HOME} && chmod -R g=u ${HOME}
 
 
