@@ -25,7 +25,7 @@ spec:
   serviceAccountName: sftp-sa
   securityContext:
     runAsNonRoot: true
-    runAsUser: 100
+    runAsUser: 1001
     containers:
 ```
 
