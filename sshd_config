@@ -1,0 +1,23 @@
+# Port
+Port 2222
+LogLevel VERBOSE
+PidFile /etc/ssh/sshd.pid
+
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Limit access
+PermitRootLogin no
+AllowTcpForwarding no
+GatewayPorts no
+X11Forwarding no
+
+# override default of no subsystems
+PubkeyAuthentication yes
+PasswordAuthentication no
+AuthenticationMethods publickey
+Subsystem sftp internal-sftp
+ForceCommand internal-sftp
+AuthorizedKeysFile /home/timbube/.ssh/authorized_keys
+ChrootDirectory %h
