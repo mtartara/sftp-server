@@ -26,7 +26,7 @@ spec:
   securityContext:
     runAsNonRoot: true
     runAsUser: 1001
-    containers:
+  containers:
 ```
 
 ### InitContainer
