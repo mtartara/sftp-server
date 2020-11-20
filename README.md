@@ -21,16 +21,12 @@ oc adm policy add-scc-to-user anyuid -z sftp-sa
 ```
 oc edit dc sftp-server
 
-----
-template:
-******
 spec:
   serviceAccountName: sftp-sa
   securityContext:
     runAsNonRoot: true
     runAsUser: 100
     containers:
-----
 ```
 
 ### InitContainer
