@@ -29,36 +29,3 @@ spec:
   containers:
 ```
 
-### InitContainer
-```
-initContainers:
-  - command:
-  - chown
-  - '100'
-  - /tmp/authorized_keys
-  image: 'alpine:latest
-  securityContext:
-    runAsUser: 0
-  volumeMounts:
-  - mountPath: /tmp/authorized_keys
-    name: volume-r5cjm
-    subPath: authorized_keys
-```
-
-### Create ConfigMaps
-```
-oc create configmap pub-key --from-file=authorized_keys
-```
-
-### Add volume
-```
-oc set volume dc/sftp-server --add --mount-path=/home/timbube/.ssh/authorized_keys --configmap-name=pub-key --default-mode=0600
-```
-
-### Change Mount
-```
-volumeMounts:
-  - mountPath: /home/timbube/.ssh/authorized_keys
-    name: volume-5jlcx
-    subPath: authorized_keys
-```
