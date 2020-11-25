@@ -11,8 +11,8 @@ ADD sshd_config /etc/ssh/sshd_config
 RUN ssh-keygen -A
 
 RUN mkdir -p ${HOME} &&\
-    addgroup --gid 1001 -S ${USERNAME} && \
-    adduser -u 1001 -S -D -h ${HOME} ${USERNAME} ${USERNAME} -p ${USERNAME} && \
+    groupadd -g 1001 ${USERNAME} && \
+    useradd -u 1001 -s /sbin/nologin -d ${HOME} -m -g ${USERNAME} -p ${USERNAME} ${USERNAME} && \
     chown root:root ${HOME}
 
 RUN mkdir -p ${HOME}/.ssh && \
@@ -27,6 +27,7 @@ RUN chown -R ${USERNAME} ${HOME}/.ssh && \
     chmod 600 ${HOME}/.ssh/authorized_keys
 
 WORKDIR ${HOME}/
+#USER ${USERNAME}
 
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D", "-e"]
