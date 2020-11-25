@@ -28,3 +28,7 @@ spec:
   containers:
 ```
 
+### Set pvc volume
+```
+oc set volumes dc sftp-server --add --name=pvc-sftp --claim-name=pvc-sftp --mount-path=/home/timbube/upload --sub-path=upload
+```
