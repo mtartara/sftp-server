@@ -27,7 +27,7 @@ RUN chown -R ${USERNAME} ${HOME}/.ssh && \
     chmod 600 ${HOME}/.ssh/authorized_keys
 
 WORKDIR ${HOME}/
-#USER ${USERNAME}
+USER ${USERNAME}
 
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D", "-e"]
