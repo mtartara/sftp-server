@@ -24,8 +24,7 @@ oc edit dc sftp-server
 spec:
   serviceAccountName: sftp-sa
   securityContext:
-    runAsNonRoot: true
-    runAsUser: 1001
+    runAsUser: 0
   containers:
 ```
 
