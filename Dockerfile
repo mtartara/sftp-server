@@ -1,33 +1,37 @@
-FROM alpine:latest
-MAINTAINER Matteo Tartara Par-Tec
+FROM centos:centos7
+MAINTAINER ParTec
 
 ENV USERNAME=timbube \
     HOME=/home/timbube
 
-RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && apk add openssh shadow@community
-
-ADD sshd_config /etc/ssh/sshd_config
-
+# SSH configuration
+RUN yum install openssh-server -y
 RUN ssh-keygen -A
 
-RUN mkdir -p ${HOME} &&\
+# User configuration
+RUN mkdir -p ${HOME}/upload &&\
     groupadd -g 1001 ${USERNAME} && \
-    useradd -u 1001 -s /sbin/nologin -d ${HOME} -m -g ${USERNAME} -p ${USERNAME} ${USERNAME} && \
-    chown root:root ${HOME}
+    useradd -u 1001 -s /bin/bash -d ${HOME}/upload -m -g ${USERNAME} -p ${USERNAME} ${USERNAME}
+
+# SSH user configuration
+RUN mkdir -p ${HOME}/etc/ssh && \
+    cp /etc/ssh/ssh_host* ${HOME}/etc/ssh
+
+ADD sshd_config ${HOME}/etc/ssh/sshd_config
 
 RUN mkdir -p ${HOME}/.ssh && \
-    chmod 700 ${HOME}/.ssh && \
-    mkdir ${HOME}/upload && \
-    chown ${USERNAME} ${HOME}/upload && \
-    chown -R ${USERNAME} /etc/ssh/
+    chmod 700 ${HOME}/.ssh
 
 ADD authorized_keys ${HOME}/.ssh/authorized_keys
 
-RUN chown -R ${USERNAME} ${HOME}/.ssh && \
-    chmod 600 ${HOME}/.ssh/authorized_keys
+RUN chmod 600 ${HOME}/.ssh/authorized_keys && \
+    chown -R ${USERNAME} ${HOME}
 
-WORKDIR ${HOME}/
+####
 USER ${USERNAME}
 
+WORKDIR ${HOME}/upload
+
 EXPOSE 2222
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+
+CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/home/timbube/etc/ssh/sshd_config"]
