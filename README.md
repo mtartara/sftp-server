@@ -2,7 +2,7 @@
 
 #### N.B
 
-Prima di eseguire il deploy popolare il file *authorized_keys* con la public key desiderata.
+Before running the deployment, populate the * authorized_keys * file with the desired public key.
 
 ### New Build
 ```
