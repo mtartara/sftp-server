@@ -3,7 +3,7 @@
 ### New Build
 ```
 oc new-build --strategy docker --binary --docker-image alpine:latest --name sftp-server
-oc start-build sftp-server --from-dir . --follow --no-cache=true
+oc start-build sftp-server --from-dir . --follow
 oc new-app sftp-server
 ```
 
@@ -24,7 +24,9 @@ oc edit dc sftp-server
 spec:
   serviceAccountName: sftp-sa
   securityContext:
-    runAsUser: 0
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
   containers:
 ```
 
