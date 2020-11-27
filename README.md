@@ -11,17 +11,17 @@ oc start-build sftpserver --from-dir . --follow
 oc new-app sftpserver
 ```
 
-### Create service account
+### ServiceAccount
 ```
 oc create serviceaccount sftp-sa -n test-project
 ```
 
-### Anyuid Permission
+### Add ServiceAccount to anyuid SCC
 ```
 oc adm policy add-scc-to-user anyuid -z sftp-sa
 ```
 
-### Edit dc sftpserver
+### Add SecurityContext and ServiceAccount to Deployment
 ```
 oc edit dc sftpserver
 
@@ -33,8 +33,12 @@ spec:
     fsGroup: 1001
   containers:
 ```
+### Create PVC volume
+```
+oc create -f pvc-sftpserver.yaml
+```
 
-### Set pvc volume
+### Set PVC volume
 ```
 oc set volumes dc sftpserver --add --name=pvc-sftpserver --claim-name=pvc-sftpserver --mount-path=/home/timbube/upload --sub-path=upload
 ```
