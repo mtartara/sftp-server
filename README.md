@@ -2,7 +2,7 @@
 
 ### New Build
 ```
-oc new-build --strategy docker --binary --docker-image alpine:latest --name sftp-server
+oc new-build --strategy docker --binary --docker-image centos:centos7 --name sftp-server
 oc start-build sftp-server --from-dir . --follow
 oc new-app sftp-server
 ```
