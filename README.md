@@ -2,9 +2,9 @@
 
 #### N.B
 
-Before running the deployment, populate the * authorized_keys * file with the desired public key.
+Before running the deploy step populate the * authorized_keys * file with the desired public key.
 
-### New Build
+### Deploy
 ```
 oc new-build --strategy docker --binary --docker-image centos:centos7 --name sftpserver
 oc start-build sftpserver --from-dir . --follow
