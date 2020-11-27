@@ -2,9 +2,9 @@
 
 ### New Build
 ```
-oc new-build --strategy docker --binary --docker-image centos:centos7 --name sftp-server
-oc start-build sftp-server --from-dir . --follow
-oc new-app sftp-server
+oc new-build --strategy docker --binary --docker-image centos:centos7 --name sftpserver
+oc start-build sftpserver --from-dir . --follow
+oc new-app sftpserver
 ```
 
 ### Create service account
@@ -17,9 +17,9 @@ oc create serviceaccount sftp-sa -n test-project
 oc adm policy add-scc-to-user anyuid -z sftp-sa
 ```
 
-### Edit dc sftp-server
+### Edit dc sftpserver
 ```
-oc edit dc sftp-server
+oc edit dc sftpserver
 
 spec:
   serviceAccountName: sftp-sa
@@ -32,5 +32,5 @@ spec:
 
 ### Set pvc volume
 ```
-oc set volumes dc sftp-server --add --name=pvc-sftp --claim-name=pvc-sftp --mount-path=/home/timbube/upload --sub-path=upload
+oc set volumes dc sftpserver --add --name=pvc-sftpserver --claim-name=pvc-sftpserver --mount-path=/home/timbube/upload --sub-path=upload
 ```
