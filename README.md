@@ -1,4 +1,8 @@
-# sftp-server
+# Deploy sftpserver Openshift 3.11
+
+#### N.B
+
+Prima di eseguire il deploy popolare il file *authorized_keys* con la public key desiderata.
 
 ### New Build
 ```
