@@ -11,11 +11,11 @@ RUN ssh-keygen -A
 # User configuration
 RUN mkdir -p ${HOME}/upload &&\
     groupadd -g 1001 ${USERNAME} && \
-    useradd -u 1001 -s /sbin/nologin -d ${HOME}/upload -m -g ${USERNAME} -p ${USERNAME} ${USERNAME}
+    useradd -u 1001 -s /sbin/nologin -d ${HOME} -m -g ${USERNAME} -p ${USERNAME} ${USERNAME}
 
 # SSH user configuration
-RUN mkdir -p ${HOME}/etc/ssh && \
-    cp /etc/ssh/ssh_host* ${HOME}/etc/ssh
+#RUN mkdir -p ${HOME}/etc/ssh && \
+#    cp /etc/ssh/ssh_host* ${HOME}/etc/ssh
 
 ADD sshd_config ${HOME}/etc/ssh/sshd_config
 
@@ -25,13 +25,14 @@ RUN mkdir -p ${HOME}/.ssh && \
 ADD authorized_keys ${HOME}/.ssh/authorized_keys
 
 RUN chmod 600 ${HOME}/.ssh/authorized_keys && \
-    chown -R ${USERNAME} ${HOME}
+    chown -R ${USERNAME} ${HOME}/upload && \
+    chown -R ${USERNAME} ${HOME}/.ssh
 
 ####
-USER ${USERNAME}
+#USER ${USERNAME}
 
 WORKDIR ${HOME}/upload
 
 EXPOSE 2222
 
-CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "${HOME}/etc/ssh/sshd_config"]
+CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config"]
