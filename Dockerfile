@@ -34,4 +34,4 @@ WORKDIR ${HOME}/upload
 
 EXPOSE 2222
 
-CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/home/timbube/etc/ssh/sshd_config"]
+CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "${HOME}/etc/ssh/sshd_config"]
