@@ -11,7 +11,7 @@ RUN ssh-keygen -A
 # User configuration
 RUN mkdir -p ${HOME}/upload &&\
     groupadd -g 1001 ${USERNAME} && \
-    useradd -u 1001 -s /bin/bash -d ${HOME}/upload -m -g ${USERNAME} -p ${USERNAME} ${USERNAME}
+    useradd -u 1001 -s /sbin/nologin -d ${HOME}/upload -m -g ${USERNAME} -p ${USERNAME} ${USERNAME}
 
 # SSH user configuration
 RUN mkdir -p ${HOME}/etc/ssh && \
