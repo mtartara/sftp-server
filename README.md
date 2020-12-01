@@ -43,13 +43,24 @@ oc create -f pvc-sftpserver.yaml
 oc set volumes dc sftpserver --add --name=pvc-sftpserver --claim-name=pvc-sftpserver --mount-path=/home/timbube/upload --sub-path=upload
 ```
 
-### Create ConfigMap
+### Create ConfigMap sftproot-key
 ```
-oc create configmap auth-sftp --from-file=authorized_keys
+oc create configmap sftproot-key --from-file=authorized_keys
 ```
 
-### Set ConfigMap
+### Set ConfigMap sftproot-key
 ```
-oc set volumes dc/sftpserver --add --configmap-name=auth-sftp --default-mode=0600 --mount-path=/home/timbube/.ssh/authorized_keys --sub-path=authorized_keys
+oc set volumes dc/sftpserver --add --configmap-name=sftproot-key --default-mode=0600 --mount-path=/home/timbube/.ssh/authorized_keys --sub-path=authorized_keys
 ```
 The authorized_keys have root:1001 owner and 0640 permission.
+
+### Create ConfigMap sftproot-config
+```
+oc create configmap sftproot-config --from-file=sshd_config
+```
+
+### Set ConfigMap sftproot-config
+```
+oc set volumes dc/sftproot --add --configmap-name=sftproot-config --default-mode=777 --mount-path=/etc/ssh/sshd_config --sub-path=sshd_config
+```
+
