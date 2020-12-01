@@ -17,12 +17,12 @@ RUN mkdir -p ${HOME}/upload &&\
 #RUN mkdir -p ${HOME}/etc/ssh && \
 #    cp /etc/ssh/ssh_host* ${HOME}/etc/ssh
 
-ADD sshd_config ${HOME}/etc/ssh/sshd_config
+#ADD sshd_config ${HOME}/etc/ssh/sshd_config
 
 RUN mkdir -p ${HOME}/.ssh && \
     chmod 700 ${HOME}/.ssh
 
-ADD authorized_keys ${HOME}/.ssh/authorized_keys
+#ADD authorized_keys ${HOME}/.ssh/authorized_keys
 
 RUN chmod 600 ${HOME}/.ssh/authorized_keys && \
     chown -R ${USERNAME} ${HOME}/upload && \
