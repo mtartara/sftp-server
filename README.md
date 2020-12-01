@@ -63,6 +63,6 @@ oc create configmap sftpserver-config --from-file=sshd_config
 
 ### Set ConfigMap sftpserver-config
 ```
-oc set volumes dc/sftproot --add --configmap-name=sftpserver-config --default-mode=777 --mount-path=/etc/ssh/sshd_config --sub-path=sshd_config
+oc set volumes dc/sftpserver --add --configmap-name=sftpserver-config --default-mode=777 --mount-path=/etc/ssh/sshd_config --sub-path=sshd_config
 ```
 
