@@ -42,3 +42,13 @@ oc create -f pvc-sftpserver.yaml
 ```
 oc set volumes dc sftpserver --add --name=pvc-sftpserver --claim-name=pvc-sftpserver --mount-path=/home/timbube/upload --sub-path=upload
 ```
+
+### Create ConfigMap
+```
+oc create configmap auth-sftp --from-file=authorized_keys
+```
+
+### Set ConfigMap
+```
+oc set volumes dc/sftpserver --add --configmap-name=auth-sftp --default-mode=0600 --mount-path=/home/timbube/.ssh/authorized_keys --sub-path=authorized_keys
+```
