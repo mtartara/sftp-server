@@ -52,3 +52,4 @@ oc create configmap auth-sftp --from-file=authorized_keys
 ```
 oc set volumes dc/sftpserver --add --configmap-name=auth-sftp --default-mode=0600 --mount-path=/home/timbube/.ssh/authorized_keys --sub-path=authorized_keys
 ```
+The authorized_keys have root:1001 owner and 0640 permission.
